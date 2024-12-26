@@ -24,7 +24,9 @@ export default function Home(props: DefaultScreenProps) {
   const editMode = () => setEdit((e) => !e);
 
   const handleCompany = (name: string) => {};
+
   const editCompany = (name: string) => {};
+  
   return (
     <CenterCard>
       <Grid2 container size={12} spacing={2}>
