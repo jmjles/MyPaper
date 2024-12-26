@@ -18,7 +18,8 @@
     "mui-tel-input": "^7.0.0",
     "next": "15.1.2",
     "react": "^19",
-    "react-dom": "^19"
+    "react-dom": "^19",
+    "uuid": "^11.0.3"
   },
   "devDependencies": {
     "@types/node": "^20",
