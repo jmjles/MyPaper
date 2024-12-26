@@ -28,7 +28,7 @@ const Company = (props: CompanyPropType) => {
   );
 };
 export type CompanyPropType = {
-  name: String;
+  name: string;
   logo: string | typeof Add;
   action?: any;
   add?: Dispatch<SetStateAction<string>>;
