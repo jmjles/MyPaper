@@ -1,17 +1,16 @@
 "use client";
 import {
-  Container,
   Grid2,
   Switch,
   Typography as Font,
   Button,
-  Card,
   Stack,
 } from "@mui/material";
 import { Edit } from "@mui/icons-material";
-import { Dispatch, SetStateAction, useState } from "react";
+import { useState } from "react";
 import Companies from "../components/Companies/Companies";
 import CenterCard from "../Layouts/CenterCard";
+import { DefaultScreenProps } from "../page";
 
 export default function Home(props: DefaultScreenProps) {
   const [layoutType, setLayoutType] = useState("grid");
@@ -26,7 +25,7 @@ export default function Home(props: DefaultScreenProps) {
   const handleCompany = (name: string) => {};
 
   const editCompany = (name: string) => {};
-  
+
   return (
     <CenterCard>
       <Grid2 container size={12} spacing={2}>
@@ -76,10 +75,4 @@ export default function Home(props: DefaultScreenProps) {
       </Grid2>
     </CenterCard>
   );
-}
-
-export interface DefaultScreenProps {
-  useScreen: Dispatch<SetStateAction<string>>;
-  selectedCompany: string;
-  setSelectedCompany: Dispatch<SetStateAction<string>>;
 }

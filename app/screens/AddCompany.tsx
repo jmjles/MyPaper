@@ -2,8 +2,9 @@ import React from "react";
 import CenterCard from "../Layouts/CenterCard";
 import { Grid2, Typography as Font, Divider } from "@mui/material";
 import CompanyForm from "../components/CompanyForm/CompanyForm";
+import { DefaultScreenProps } from "../page";
 
-const AddCompany = () => {
+const AddCompany = (props: DefaultScreenProps) => {
   return (
     <CenterCard>
       <Grid2 container size={12} spacing={2}>
@@ -21,7 +22,7 @@ const AddCompany = () => {
           </Font>
         </Grid2>
         <Grid2 size={12}>
-          <CompanyForm />
+          <CompanyForm {...props} />
         </Grid2>
       </Grid2>
     </CenterCard>

@@ -7,7 +7,7 @@ const Company = (props: CompanyPropType) => {
     props.add ? props.add("addCompany") : props.action(props.name);
 
   return (
-    <Button onClick={action} color="primary">
+    <Button onClick={action} color="primary" >
       <Stack direction={"column"}>
         {typeof props.logo !== "string" && (
           <props.logo style={{ fontSize: 112 }} />

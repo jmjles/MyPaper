@@ -1,10 +1,11 @@
-import { ArrowBack, ArrowForward, Done } from "@mui/icons-material";
+import { ArrowBack, ArrowForward, Cancel, Done } from "@mui/icons-material";
 import { Button, Container, Grid2 } from "@mui/material";
 import React, { ChangeEvent, FormEvent, useState } from "react";
 import Steps from "./Steps";
 import { v4 } from "uuid";
+import { DefaultScreenProps } from "@/app/page";
 
-const CompanyForm = () => {
+const CompanyForm = (props: DefaultScreenProps) => {
   const [currentStep, setCurrentStep] = useState(0);
   const [name, setName] = useState("");
   const [address, setAddress] = useState("");
@@ -93,7 +94,7 @@ const CompanyForm = () => {
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
 
-    if (formLength !== currentStep) {
+    if (!lastStep) {
       setCurrentStep((p) => (p += 1));
       return;
     }
@@ -116,8 +117,16 @@ const CompanyForm = () => {
     } else {
       localStorage.setItem("companies", JSON.stringify([company]));
     }
+    props.sendNotification(`${name} has successfully been created!`, "success");
+    props.useScreen("home");
   };
-  const handleBack = () => setCurrentStep((p) => (p -= 1));
+  const handleBack = () => {
+    if (currentStep === 0) {
+      props.useScreen("home");
+      return;
+    }
+    setCurrentStep((p) => (p -= 1));
+  };
 
   return (
     <Container maxWidth={"sm"}>
@@ -150,23 +159,17 @@ const CompanyForm = () => {
             }}
           />
 
-          <Grid2
-            size={12}
-            justifyContent={currentStep === 0 ? "end" : "space-between"}
-            container
-          >
-            {currentStep !== 0 && (
-              <Grid2>
-                <Button
-                  variant="contained"
-                  startIcon={<ArrowBack />}
-                  size="large"
-                  onClick={handleBack}
-                >
-                  back
-                </Button>
-              </Grid2>
-            )}
+          <Grid2 size={12} justifyContent="space-between" container>
+            <Grid2>
+              <Button
+                variant="contained"
+                startIcon={currentStep === 0 ? <Cancel /> : <ArrowBack />}
+                size="large"
+                onClick={handleBack}
+              >
+                {currentStep === 0 ? "Cancel" : "Back"}
+              </Button>
+            </Grid2>
 
             <Grid2>
               <Button
