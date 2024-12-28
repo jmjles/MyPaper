@@ -16,6 +16,7 @@ const CompanyForm = (props: DefaultScreenProps) => {
   const [logo, setLogo] = useState<File | null>(null);
   const [logoData, setLogoData] = useState<string | undefined>(undefined);
   const [logoError, setLogoError] = useState("");
+  const [license, setLicense] = useState("");
   const [special, setSpecial] = useState({});
   const [customField, setCustomField] = useState("");
   const [customValue, setCustomValue] = useState("");
@@ -44,6 +45,9 @@ const CompanyForm = (props: DefaultScreenProps) => {
         break;
       case "website":
         setWebsite(value);
+        break;
+      case "license":
+        setLicense(value);
         break;
       case "special":
         setSpecial((s) => {
@@ -106,7 +110,8 @@ const CompanyForm = (props: DefaultScreenProps) => {
       city,
       zipCode,
       website,
-      logoData,
+      license,
+      logo:logoData,
     };
 
     const companies = localStorage.getItem("companies");
@@ -151,6 +156,7 @@ const CompanyForm = (props: DefaultScreenProps) => {
               logo,
               logoData,
               logoError,
+              license,
               tel,
               website,
               special,
@@ -186,6 +192,17 @@ const CompanyForm = (props: DefaultScreenProps) => {
       </Grid2>
     </Container>
   );
+};
+
+export type CompanyType = {
+  id: string;
+  name: string;
+  address: string;
+  city: string;
+  zipCode: string;
+  website: string;
+  license: string;
+  logo?: string;
 };
 
 export default CompanyForm;

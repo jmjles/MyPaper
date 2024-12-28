@@ -18,6 +18,7 @@ const Steps = (props: FormStepsType) => {
     website,
     currentStep,
     handleImg,
+    license,
     customField,
     customValue,
     special,
@@ -112,6 +113,16 @@ const Steps = (props: FormStepsType) => {
             value={website}
           />
         </Grid2>
+        <Grid2 size={12}>
+          <TextField
+            label="License"
+            name="license"
+            type="text"
+            fullWidth
+            onChange={handleChange}
+            value={license}
+          />
+        </Grid2>
       </>
     ),
     // () => (
@@ -156,6 +167,7 @@ type FormStepsType = {
   logoData: string | undefined;
   logoError: string;
   website: string;
+  license: string;
   currentStep: number;
   special: any;
   customField: string;
