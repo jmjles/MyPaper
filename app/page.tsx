@@ -4,6 +4,7 @@ import Home from "./screens/home";
 import { Dispatch, SetStateAction, useState } from "react";
 import AddCompany from "./screens/AddCompany";
 import Notification from "./components/Notification/Notification";
+import { ConfirmProvider } from "material-ui-confirm";
 
 export default function Index() {
   const [screen, setScreen] = useState("home");
@@ -41,7 +42,9 @@ export default function Index() {
         open={open}
         setOpen={setOpen}
       />
-      <CurrentScreen />
+      <ConfirmProvider>
+        <CurrentScreen />
+      </ConfirmProvider>
     </Container>
   );
 }
