@@ -1,3 +1,4 @@
+import { Screens } from "@/app/page";
 import { Add, Delete, Edit, ImageNotSupported } from "@mui/icons-material";
 import { Stack, Typography as Font, Button, IconButton } from "@mui/material";
 import React, { Dispatch, SetStateAction, useRef } from "react";
@@ -101,7 +102,7 @@ export type CompanyPropType = {
   name: string;
   logo?: string | typeof Add;
   action?: any;
-  add?: Dispatch<SetStateAction<string>>;
+  add?: Dispatch<SetStateAction<Screens>>;
   edit?: boolean;
   deleteCompany?: any;
   editCompany?: any;

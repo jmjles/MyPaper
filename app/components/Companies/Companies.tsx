@@ -3,6 +3,7 @@ import React, { Dispatch, SetStateAction } from "react";
 import Company from "./Company";
 import { Add } from "@mui/icons-material";
 import { CompanyListType } from "@/app/screens/home";
+import { Screens } from "@/app/page";
 
 const Companies = (props: CompaniesPropType) => {
   return (
@@ -27,7 +28,7 @@ const Companies = (props: CompaniesPropType) => {
 };
 type CompaniesPropType = {
   companies: CompanyListType[];
-  useScreen: Dispatch<SetStateAction<string>>;
+  useScreen: Dispatch<SetStateAction<Screens>>;
   edit: boolean;
   deleteCompany: any;
   editCompany: any;

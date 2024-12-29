@@ -47,7 +47,10 @@ export default function Home(props: DefaultScreenProps) {
 
   const editMode = () => setEdit((e) => !e);
 
-  const handleCompany = (name: string) => {};
+  const handleCompany = (id: string) => {
+    props.setSelectedCompany(id);
+    props.useScreen("paperLayouts")
+  };
 
   const editCompany = (id: string) => {};
 
