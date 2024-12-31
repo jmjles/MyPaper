@@ -11,6 +11,8 @@ const CompanyForm = (props: DefaultScreenProps) => {
   const [address, setAddress] = useState("");
   const [city, setCity] = useState("");
   const [zipCode, setZipCode] = useState("");
+  const [state, setState] = useState("");
+  const [slogan, setSlogan] = useState("");
   const [tel, setTel] = useState("");
   const [website, setWebsite] = useState("");
   const [logo, setLogo] = useState<File | null>(null);
@@ -45,6 +47,12 @@ const CompanyForm = (props: DefaultScreenProps) => {
         break;
       case "website":
         setWebsite(value);
+        break;
+      case "state":
+        setState(value);
+        break;
+      case "slogan":
+        setSlogan(value);
         break;
       case "license":
         setLicense(value);
@@ -109,9 +117,11 @@ const CompanyForm = (props: DefaultScreenProps) => {
       address,
       city,
       zipCode,
+      state,
+      slogan,
       website,
       license,
-      logo:logoData,
+      logo: logoData,
     };
 
     const companies = localStorage.getItem("companies");
@@ -154,6 +164,8 @@ const CompanyForm = (props: DefaultScreenProps) => {
               zipCode,
               currentStep,
               logo,
+              state,
+              slogan,
               logoData,
               logoError,
               license,
@@ -200,6 +212,8 @@ export type CompanyType = {
   address: string;
   city: string;
   zipCode: string;
+  state: string;
+  slogan: string;
   website: string;
   license: string;
   logo?: string;

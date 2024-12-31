@@ -7,7 +7,7 @@ const Company = (props: CompanyPropType) => {
   const backdrop = useRef<HTMLDivElement>(null);
   const editButtons = useRef<HTMLDivElement>(null);
   const action = () =>
-    props.add ? props.add("addCompany") : props.action(props.name);
+    props.add ? props.add("addCompany") : props.action(props.id);
 
   const Logo = () => {
     if (!props.logo)

@@ -10,6 +10,8 @@ const Steps = (props: FormStepsType) => {
     name,
     address,
     city,
+    state,
+    slogan,
     zipCode,
     tel,
     logo,
@@ -61,6 +63,18 @@ const Steps = (props: FormStepsType) => {
         </Grid2>
         <Grid2 size={12}>
           <TextField
+            label="State"
+            type="text"
+            name="state"
+            fullWidth
+            required
+            slotProps={{ htmlInput: { maxLength: 2 } }}
+            onChange={handleChange}
+            value={state}
+          />
+        </Grid2>
+        <Grid2 size={12}>
+          <TextField
             label="ZipCode"
             type="string"
             name="zipcode"
@@ -104,13 +118,34 @@ const Steps = (props: FormStepsType) => {
           />
         </Grid2>
         <Grid2 size={12}>
+          <MuiTelInput
+            label="Company Number"
+            name="tel"
+            fullWidth
+            required
+            defaultCountry="US"
+            onChange={handleChange}
+            value={tel}
+          />
+        </Grid2>
+        <Grid2 size={12}>
           <TextField
             label="Website"
             name="website"
-            type="url"
+            type="string"
             fullWidth
             onChange={handleChange}
             value={website}
+          />
+        </Grid2>
+        <Grid2 size={12}>
+          <TextField
+            label="Slogan"
+            name="slogan"
+            type="text"
+            fullWidth
+            onChange={handleChange}
+            value={slogan}
           />
         </Grid2>
         <Grid2 size={12}>
@@ -161,6 +196,8 @@ type FormStepsType = {
   name: string;
   address: string;
   city: string;
+  state: string;
+  slogan: string;
   zipCode: string;
   tel: string;
   logo: File | null;
