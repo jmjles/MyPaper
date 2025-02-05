@@ -21,7 +21,7 @@ const InvoiceDefault = (props: PaperProps) => {
           <View style={style.LogoSection}>
             {company.logo && (
               <Image
-                src={Buffer.from(company.logo)}
+                src={Buffer.from(company.logo, "utf-8")}
                 style={{ width: 75, height: 75 }}
               />
             )}

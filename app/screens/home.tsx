@@ -15,7 +15,7 @@ import { CompanyType } from "../components/CompanyForm/CompanyForm";
 import { useConfirm } from "material-ui-confirm";
 
 export default function Home(props: DefaultScreenProps) {
-  const [layoutType, setLayoutType] = useState("grid");
+  const [layoutType, setLayoutType] = useState<"list" | "grid">("grid");
   const [edit, setEdit] = useState(false);
   const [companyList, setCompanyList] = useState<CompanyListType[]>([]);
   const confirm = useConfirm();
@@ -27,7 +27,6 @@ export default function Home(props: DefaultScreenProps) {
   useEffect(() => {
     setCompanyList(
       props.companies.map((c) => {
-        if (c.logo) console.log(Buffer.from(c.logo, "utf-8"));
         return { ...c, action: handleCompany };
       })
     );
@@ -39,7 +38,10 @@ export default function Home(props: DefaultScreenProps) {
 
   const editMode = () => setEdit((e) => !e);
 
-  const editCompany = (id: string) => {};
+  const editCompany = (id: string) => {
+    props.setSelectedCompany(id);
+    props.useScreen("editCompany");
+  };
 
   const deleteCompany = async (id: string) => {
     let deleted;
@@ -84,6 +86,7 @@ export default function Home(props: DefaultScreenProps) {
             edit={edit}
             deleteCompany={deleteCompany}
             editCompany={editCompany}
+            layoutType={layoutType}
           />
         </Grid2>
         <Grid2 size={12} textAlign="right">

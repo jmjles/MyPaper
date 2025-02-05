@@ -1,6 +1,6 @@
 import { ArrowBack, ArrowForward, Cancel, Done } from "@mui/icons-material";
 import { Button, Container, Grid2 } from "@mui/material";
-import React, { ChangeEvent, FormEvent, useState } from "react";
+import React, { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import Steps from "./Steps";
 import { v4 } from "uuid";
 import { DefaultScreenProps } from "@/app/page";
@@ -22,8 +22,35 @@ const CompanyForm = (props: DefaultScreenProps) => {
   const [special, setSpecial] = useState({});
   const [customField, setCustomField] = useState("");
   const [customValue, setCustomValue] = useState("");
-
+  const [company, setCompany] = useState<CompanyType>();
   const formLength = 2;
+  useEffect(() => {
+    if (props.screen === "editCompany") {
+      const selectedCompany = props.companies.filter(
+        (c) => props.selectedCompany === c.id
+      )[0];
+      setCompany(selectedCompany);
+    }
+  }, [props.screen]);
+
+  useEffect(() => {
+    if (company) {
+      setName(company.name);
+      setAddress(company.address);
+      setCity(company.city);
+      setZipCode(company.zipCode);
+      setState(company.state);
+      setSlogan(company.slogan);
+      setTel(company.tel);
+      setWebsite(company.website);
+      if (company.logo) {
+        setLogo(new File([new Blob([company.logo])], `${company.name} Logo`));
+        setLogoData(company.logo);
+      }
+      setLicense(company.license);
+    }
+  }, [company]);
+
   const handleChange = (
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement> | string
   ) => {
@@ -111,8 +138,8 @@ const CompanyForm = (props: DefaultScreenProps) => {
       return;
     }
 
-    const company = {
-      id: v4(),
+    const companyData: CompanyType = {
+      id: company?.id || v4(),
       name,
       address,
       city,
@@ -121,18 +148,31 @@ const CompanyForm = (props: DefaultScreenProps) => {
       slogan,
       website,
       license,
+      tel,
       logo: logoData,
     };
 
     const companies = localStorage.getItem("companies");
     if (companies !== null) {
-      const parsed = JSON.parse(companies);
-      parsed.push(company);
+      let parsed: CompanyType[] = JSON.parse(companies);
+      if (props.screen === "editCompany" && parsed.length > 0) {
+        parsed = parsed.map((p) => {
+          if (p.id === companyData.id) return companyData;
+          return p;
+        });
+      } else {
+        parsed.push(companyData);
+      }
       localStorage.setItem("companies", JSON.stringify(parsed));
     } else {
-      localStorage.setItem("companies", JSON.stringify([company]));
+      localStorage.setItem("companies", JSON.stringify([companyData]));
     }
-    props.sendNotification(`${name} has successfully been created!`, "success");
+    props.sendNotification(
+      `${name} has successfully been ${
+        props.screen === "editCompany" ? "updated" : "created"
+      }!`,
+      "success"
+    );
     props.useScreen("home");
   };
   const handleBack = () => {
@@ -216,6 +256,7 @@ export type CompanyType = {
   slogan: string;
   website: string;
   license: string;
+  tel: string;
   logo?: string;
 };
 

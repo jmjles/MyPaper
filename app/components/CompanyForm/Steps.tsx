@@ -93,6 +93,7 @@ const Steps = (props: FormStepsType) => {
             defaultCountry="US"
             onChange={handleChange}
             value={tel}
+            forceCallingCode
           />
         </Grid2>
       </>

@@ -8,6 +8,7 @@ import { ConfirmProvider } from "material-ui-confirm";
 import PaperLayout from "./screens/PaperLayout";
 import MyPaper from "./screens/MyPaper";
 import { CompanyType } from "./components/CompanyForm/CompanyForm";
+import EditCompany from "./screens/EditCompany";
 
 export default function Index() {
   const [screen, setScreen] = useState<Screens>("home");
@@ -34,6 +35,7 @@ export default function Index() {
     companies,
     setCompanies,
     selectedPaper,
+    screen,
   };
 
   const CurrentScreen = () => {
@@ -46,6 +48,8 @@ export default function Index() {
         return <PaperLayout {...defaultProps} />;
       case "paper":
         return <MyPaper {...defaultProps} />;
+      case "editCompany":
+        return <EditCompany {...defaultProps} />;
     }
   };
 
@@ -58,7 +62,7 @@ export default function Index() {
   };
 
   const sampleCompany: CompanyType = {
-    id: "001",
+    id: "01",
     address: "5417 Main St.",
     city: "Los Angeles",
     state: "Ca",
@@ -66,27 +70,16 @@ export default function Index() {
     slogan: "You think it, we build it",
     license: "BE-54682",
     website: "WeBuild.com",
+    tel: "888 888-8888",
     zipCode: "99999",
   };
 
   useEffect(() => {
     const data = getCompanies();
-    if (data)
-      setCompanies(
-        [
-          sampleCompany,
-          sampleCompany,
-          sampleCompany,
-          sampleCompany,
-          sampleCompany,
-          sampleCompany,
-          sampleCompany,
-          sampleCompany,
-          sampleCompany,
-          sampleCompany,
-          sampleCompany,
-        ].concat(data)
-      );
+    const hasSampleData = !data?.every((d) => sampleCompany.id !== d.id);
+    if (data && screen === "home")
+      if (hasSampleData) setCompanies(data);
+      else setCompanies([...data, sampleCompany]);
   }, [screen]);
 
   return (
@@ -105,7 +98,12 @@ export default function Index() {
   );
 }
 
-export type Screens = "home" | "addCompany" | "paperLayouts" | "paper";
+export type Screens =
+  | "home"
+  | "addCompany"
+  | "paperLayouts"
+  | "paper"
+  | "editCompany";
 
 export interface DefaultScreenProps {
   useScreen: Dispatch<SetStateAction<Screens>>;
@@ -116,4 +114,5 @@ export interface DefaultScreenProps {
   selectedPaper: string;
   companies: CompanyType[];
   setCompanies: Dispatch<SetStateAction<CompanyType[]>>;
+  screen: Screens;
 }

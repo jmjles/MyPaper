@@ -6,21 +6,32 @@ import { CompanyListType } from "@/app/screens/home";
 import { Screens } from "@/app/page";
 
 const Companies = (props: CompaniesPropType) => {
+  const isGrid = props.layoutType === "grid";
   return (
-    <Grid2 container justifyContent="center" spacing={2}>
+    <Grid2
+      container
+      justifyContent="center"
+      spacing={2}
+    >
       {props.companies.map((c) => (
-        <Grid2 key={c.id}>
+        <Grid2 key={c.id} width={isGrid ? "revert" : "45%"}>
           <Company
             {...c}
             edit={props.edit}
             editCompany={props.editCompany}
             deleteCompany={props.deleteCompany}
+            layoutType={props.layoutType}
           />
         </Grid2>
       ))}
       {!props.edit && (
-        <Grid2>
-          <Company name="Add Company" logo={Add} add={props.useScreen} />
+        <Grid2 width={isGrid ? "revert" : "45%"}>
+          <Company
+            name="Add Company"
+            logo={Add}
+            add={props.useScreen}
+            layoutType={props.layoutType}
+          />
         </Grid2>
       )}
     </Grid2>
@@ -32,5 +43,6 @@ type CompaniesPropType = {
   edit: boolean;
   deleteCompany: any;
   editCompany: any;
+  layoutType: "grid" | "list";
 };
 export default Companies;
