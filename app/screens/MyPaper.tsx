@@ -20,6 +20,7 @@ const MyPaper = (props: DefaultScreenProps) => {
   const [company, setCompany] = useState<CompanyType>();
   const [open, setOpen] = useState(false);
   const [date, setDate] = useState("");
+  const [projectNum, setProjectNum] = useState("");
   const [jobAddress, setJobAddress] = useState("");
   const [owner, setOwner] = useState("");
   const [client, setClient] = useState("");
@@ -48,7 +49,10 @@ const MyPaper = (props: DefaultScreenProps) => {
     { state: setEmail, value: email, name: "Email" },
     // { state: setTitle, value: title, name: "Title" },
   ];
-
+  const invoiceData: Record<InvoiceData, FieldType> = {
+    date: { name: "Date", value: date, state: setDate },
+    projectNum: { name: "ProjectNum", value: projectNum, state: setProjectNum },
+  };
   useEffect(() => {
     setCompany(
       props.companies.filter((c) => c.id === props.selectedCompany)[0]
@@ -91,6 +95,7 @@ const MyPaper = (props: DefaultScreenProps) => {
             company={company}
             client={paperFields}
             table={{ title, entries, total, subtotal }}
+            invoiceData={{ date, projectNum }}
           />
         </PDFViewer>
       </Container>
@@ -103,6 +108,8 @@ const MyPaper = (props: DefaultScreenProps) => {
       fields.forEach((f, i) => f.state(""));
       setTitle("");
       setTotal("");
+      setDate("");
+      setProjectNum("");
       setSubTotal("");
       setEntries([]);
       return;
@@ -121,6 +128,8 @@ const MyPaper = (props: DefaultScreenProps) => {
     ];
     fields.forEach((f, i) => f.state(fieldData[i]));
     setTitle("Roof Repair");
+    setProjectNum("001");
+    setDate("2077/01/01");
     setEntries([
       {
         header: false,
@@ -144,7 +153,10 @@ const MyPaper = (props: DefaultScreenProps) => {
   const handleForm = ({
     target: { name, value },
   }: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    fields.filter((f) => f.name === name)[0].state(value);
+    const field = fields.filter((f) => f.name === name)[0];
+    if (field) field.state(value);
+    if (name === "date" || name === "projectNum")
+      if (invoiceData[name]) invoiceData[name].state(value);
   };
   const handleBack = () => {
     props.useScreen("paperLayouts");
@@ -176,6 +188,7 @@ const MyPaper = (props: DefaultScreenProps) => {
         handlePaper={handlePaper}
         open={open}
         sample={sample}
+        invoiceData={invoiceData}
         fields={fields}
         table={{
           title,
@@ -193,4 +206,5 @@ const MyPaper = (props: DefaultScreenProps) => {
     </div>
   );
 };
+type InvoiceData = "date" | "projectNum";
 export default MyPaper;

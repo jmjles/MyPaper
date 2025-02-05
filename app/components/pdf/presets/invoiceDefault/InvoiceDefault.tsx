@@ -13,7 +13,7 @@ import Field from "../../Field/Field";
 import Table, { TableProps } from "../../Table/Table";
 
 const InvoiceDefault = (props: PaperProps) => {
-  const { table, client, company } = props;
+  const { table, client, company, invoiceData } = props;
   return (
     <Document>
       <Page size="A4" style={style.page}>
@@ -43,10 +43,10 @@ const InvoiceDefault = (props: PaperProps) => {
             </View>
           </View>
           <View style={{ width: "33%" }}>
-            <Field fieldName="Date" fieldValue="" />
+            <Field fieldName="Date" fieldValue={invoiceData.date} />
             <Field fieldName="Job Address" fieldValue={client.jobAddress} />
             <Field fieldName="Owner" fieldValue={client.owner} />
-            <Field fieldName="Project#" fieldValue="" />
+            <Field fieldName="Project#" fieldValue={invoiceData.projectNum} />
           </View>
         </View>
         <Link style={style.url}>{company.website}</Link>
@@ -152,6 +152,10 @@ export type PaperProps = {
     title: string;
     subtotal: string;
     total: string;
+  };
+  invoiceData: {
+    date: string;
+    projectNum: string;
   };
 };
 export default InvoiceDefault;

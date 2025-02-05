@@ -1,10 +1,4 @@
-import {
-  ArrowBack,
-  ArrowForward,
-  Cancel,
-  Delete,
-  Save,
-} from "@mui/icons-material";
+import { ArrowBack, ArrowForward } from "@mui/icons-material";
 import {
   Button,
   Container,
@@ -17,7 +11,6 @@ import {
   Checkbox,
   TextField,
   Divider,
-  IconButton,
 } from "@mui/material";
 import React, { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import { TableProps } from "../Table/Table";
@@ -64,7 +57,7 @@ const InvoiceForm = (props: InvoiceFormProps) => {
     { name: "Edit Total", value: totalEnable, state: setTotalEnable },
   ];
   useEffect(() => {
-    setLastStep(step == 2);
+    setLastStep(step == 3);
   }, [step]);
   useEffect(() => {
     setStep(1);
@@ -188,7 +181,7 @@ const InvoiceForm = (props: InvoiceFormProps) => {
     () => (
       <>
         <Typography variant="h2" align="center" marginBottom={2}>
-          {props.title}
+          Invoice Data
         </Typography>
         <FormControlLabel
           control={
@@ -197,6 +190,35 @@ const InvoiceForm = (props: InvoiceFormProps) => {
           label="Sample Data"
           labelPlacement="start"
         />
+        <Grid2 container direction={"row"} spacing={2} minWidth={600}>
+          <Grid2 width={"45%"}>
+            <TextField
+              label="Project #"
+              name="projectNum"
+              fullWidth
+              required
+              onChange={props.handleForm}
+              value={props.invoiceData.projectNum.value}
+            />
+          </Grid2>
+          <Grid2 width={"45%"}>
+            <TextField
+              type="date"
+              name="date"
+              fullWidth
+              required
+              onChange={props.handleForm}
+              value={props.invoiceData.date.value}
+            />
+          </Grid2>
+        </Grid2>
+      </>
+    ),
+    () => (
+      <>
+        <Typography variant="h2" align="center" marginBottom={2}>
+          {props.title}
+        </Typography>
         <Grid2
           container
           justifyContent="space-evenly"
@@ -340,6 +362,11 @@ const InvoiceForm = (props: InvoiceFormProps) => {
   };
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
+    if (step !== 3) {
+      setStep((s) => s + 1);
+      return;
+    }
+    props.handlePaper();
   };
   return (
     <Dialog
@@ -349,7 +376,9 @@ const InvoiceForm = (props: InvoiceFormProps) => {
       onSubmit={handleSubmit}
     >
       <DialogTitle>{props.header}</DialogTitle>
-      <Container>{Step[step - 1]()}</Container>
+      <Container style={{ overflowX: "hidden", minWidth: 600, minHeight: 250 }}>
+        {Step[step - 1]()}
+      </Container>
       <DialogActions>
         <Button onClick={props.handlePaper} color="error">
           Cancel
@@ -387,6 +416,7 @@ type InvoiceFormProps = {
   header: string;
   title: string;
   table: TableFieldType;
+  invoiceData: { date: FieldType; projectNum: FieldType };
 };
 export type TableFieldType = {
   title: string;
