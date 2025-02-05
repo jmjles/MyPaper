@@ -1,8 +1,17 @@
 import React from "react";
+import DefaultInvPng from "../assets/DefaultInvoice.png";
 import { DefaultScreenProps } from "../page";
 import CenterCard from "../Layouts/CenterCard";
-import { Grid2, Typography as Font, Button, Divider } from "@mui/material";
+import {
+  Grid2,
+  Typography as Font,
+  Button,
+  Divider,
+  Stack,
+  Typography,
+} from "@mui/material";
 import { ArrowBack } from "@mui/icons-material";
+import Image from "next/image";
 
 const PaperLayout = (props: DefaultScreenProps) => {
   const handleSelect = (name: string) => {
@@ -27,7 +36,15 @@ const PaperLayout = (props: DefaultScreenProps) => {
           </Grid2>
           <Grid2 container direction="row">
             <Button variant="contained" onClick={() => handleSelect("default")}>
-              Default
+              <Stack alignItems="center">
+                <Image
+                  src={DefaultInvPng}
+                  height={100}
+                  width={75}
+                  alt="Default Invoice Preview"
+                />
+                <Typography variant="button">Default Invoice</Typography>
+              </Stack>
             </Button>
           </Grid2>
         </Grid2>

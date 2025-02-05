@@ -18,23 +18,23 @@ const InvoiceDefault = (props: PaperProps) => {
     <Document>
       <Page size="A4" style={style.page}>
         <View style={style.header}>
-          <View style={style.LogoSection}>
+          {/* <View style={style.LogoSection}>
             {company.logo && (
               <Image
                 src={Buffer.from(company.logo, "utf-8")}
                 style={{ width: 75, height: 75 }}
               />
             )}
-          </View>
+          </View> */}
           <View style={style.headerMainSection}>
             <View style={style.container}>
-              <Text style={style.text}>{company.name}</Text>
+              <Text>{company.name}</Text>
               <Text style={style.text}>{company.slogan}</Text>
             </View>
             <View style={style.container}>
               <Text style={style.text}>{company.address}</Text>
               <Text style={style.text}>{company.city}</Text>
-              <Text>
+              <Text style={style.text}>
                 {company.state} {company.zipCode}
               </Text>
             </View>
@@ -104,7 +104,7 @@ const style = StyleSheet.create({
   LogoSection: {
     width: "30%",
   },
-  headerMainSection: { width: "30%" },
+  headerMainSection: { width: "60%" },
   container: {
     marginBottom: 20,
     display: "flex",
@@ -113,10 +113,10 @@ const style = StyleSheet.create({
   },
   text: {
     textAlign: "center",
-    fontSize: 18,
+    fontSize: 12,
   },
   url: {
-    fontSize: 12,
+    fontSize: 10,
   },
   page: {
     padding: ".5in",
