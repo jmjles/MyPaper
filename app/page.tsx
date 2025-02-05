@@ -1,12 +1,13 @@
 "use client";
 import { AlertColor, Container } from "@mui/material";
 import Home from "./screens/home";
-import { Dispatch, SetStateAction, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import AddCompany from "./screens/AddCompany";
 import Notification from "./components/Notification/Notification";
 import { ConfirmProvider } from "material-ui-confirm";
 import PaperLayout from "./screens/PaperLayout";
 import MyPaper from "./screens/MyPaper";
+import { CompanyType } from "./components/CompanyForm/CompanyForm";
 
 export default function Index() {
   const [screen, setScreen] = useState<Screens>("home");
@@ -14,6 +15,7 @@ export default function Index() {
   const [open, setOpen] = useState(false);
   const [notifText, setNotifText] = useState("");
   const [notifType, setNotifType] = useState<AlertColor>("success");
+  const [companies, setCompanies] = useState<CompanyType[]>([]);
   const [selectedPaper, setSelectedPaper] = useState("");
   const [customPaper, setCustomPaper] = useState("");
 
@@ -29,6 +31,9 @@ export default function Index() {
     setSelectedCompany,
     sendNotification,
     setSelectedPaper,
+    companies,
+    setCompanies,
+    selectedPaper,
   };
 
   const CurrentScreen = () => {
@@ -43,6 +48,46 @@ export default function Index() {
         return <MyPaper {...defaultProps} />;
     }
   };
+
+  const getCompanies = (): CompanyType[] | null => {
+    const companiesData = localStorage.getItem("companies");
+    if (companiesData) {
+      return JSON.parse(companiesData);
+    }
+    return null;
+  };
+
+  const sampleCompany: CompanyType = {
+    id: "001",
+    address: "5417 Main St.",
+    city: "Los Angeles",
+    state: "Ca",
+    name: "WeBuild",
+    slogan: "You think it, we build it",
+    license: "BE-54682",
+    website: "WeBuild.com",
+    zipCode: "99999",
+  };
+
+  useEffect(() => {
+    const data = getCompanies();
+    if (data)
+      setCompanies(
+        [
+          sampleCompany,
+          sampleCompany,
+          sampleCompany,
+          sampleCompany,
+          sampleCompany,
+          sampleCompany,
+          sampleCompany,
+          sampleCompany,
+          sampleCompany,
+          sampleCompany,
+          sampleCompany,
+        ].concat(data)
+      );
+  }, [screen]);
 
   return (
     <Container component="main" maxWidth="lg">
@@ -68,4 +113,7 @@ export interface DefaultScreenProps {
   setSelectedPaper: Dispatch<SetStateAction<string>>;
   setSelectedCompany: Dispatch<SetStateAction<string>>;
   sendNotification: (text: string, severity: AlertColor) => void;
+  selectedPaper: string;
+  companies: CompanyType[];
+  setCompanies: Dispatch<SetStateAction<CompanyType[]>>;
 }
