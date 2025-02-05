@@ -17,29 +17,21 @@ import { useConfirm } from "material-ui-confirm";
 export default function Home(props: DefaultScreenProps) {
   const [layoutType, setLayoutType] = useState("grid");
   const [edit, setEdit] = useState(false);
-  const [companies, setCompanies] = useState<CompanyType[]>([]);
   const [companyList, setCompanyList] = useState<CompanyListType[]>([]);
   const confirm = useConfirm();
 
-  const getCompanies = (): CompanyType[] | null => {
-    const companiesData = localStorage.getItem("companies");
-    if (companiesData) {
-      return JSON.parse(companiesData);
-    }
-    return null;
+  const handleCompany = (id: string) => {
+    props.setSelectedCompany(id);
+    props.useScreen("paperLayouts");
   };
   useEffect(() => {
-    const data = getCompanies();
-    if (data) setCompanies(data);
-  }, []);
-
-  useEffect(() => {
     setCompanyList(
-      companies.map((c) => {
+      props.companies.map((c) => {
+        if (c.logo) console.log(Buffer.from(c.logo, "utf-8"));
         return { ...c, action: handleCompany };
       })
     );
-  }, [edit, companies]);
+  }, [edit, props.companies]);
 
   const handleLayout = () => {
     setLayoutType(layoutType === "grid" ? "list" : "grid");
@@ -47,18 +39,11 @@ export default function Home(props: DefaultScreenProps) {
 
   const editMode = () => setEdit((e) => !e);
 
-  const handleCompany = (id: string) => {
-    props.setSelectedCompany(id);
-    props.useScreen("paperLayouts")
-  };
-
   const editCompany = (id: string) => {};
 
   const deleteCompany = async (id: string) => {
-    const data = getCompanies();
-    if (!data) return;
     let deleted;
-    const newList = data.filter((c) => {
+    const newList = props.companies.filter((c) => {
       if (c.id === id) deleted = c.name;
       return c.id !== id;
     });
@@ -68,7 +53,7 @@ export default function Home(props: DefaultScreenProps) {
         confirmationText: "YES",
       });
       localStorage.setItem("companies", JSON.stringify(newList));
-      setCompanies(newList);
+      props.setCompanies(newList);
       props.sendNotification(`${deleted} has been deleted`, "error");
     } catch {}
   };
@@ -92,12 +77,7 @@ export default function Home(props: DefaultScreenProps) {
             Company Selection
           </Font>
         </Grid2>
-        <Grid2
-          size={12}
-          justifyContent="center"
-          height="50vh"
-          overflow="scroll"
-        >
+        <Grid2 size={12} justifyContent="center" height="50vh" overflow="auto">
           <Companies
             companies={companyList}
             useScreen={props.useScreen}
