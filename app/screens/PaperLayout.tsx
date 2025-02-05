@@ -2,6 +2,7 @@ import React from "react";
 import { DefaultScreenProps } from "../page";
 import CenterCard from "../Layouts/CenterCard";
 import { Grid2, Typography as Font, Button, Divider } from "@mui/material";
+import { ArrowBack } from "@mui/icons-material";
 
 const PaperLayout = (props: DefaultScreenProps) => {
   const handleSelect = (name: string) => {
@@ -10,6 +11,9 @@ const PaperLayout = (props: DefaultScreenProps) => {
   };
   return (
     <CenterCard>
+      <Button startIcon={<ArrowBack />} onClick={() => props.useScreen("home")}>
+        Back
+      </Button>
       <Grid2 container size={12} justifyContent="center">
         <Grid2 size={12}>
           <Font variant="h1" align="center">
